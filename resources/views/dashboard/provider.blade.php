@@ -3,7 +3,12 @@
 @section('title', 'Provider Dashboard')
 
 @section('content')
-    <h1 class="text-2xl font-bold mb-6">Your services</h1>
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold">Your services</h1>
+        <a href="{{ route('services.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm">
+            + Add service
+        </a>
+    </div>
 
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
         @forelse ($services as $service)

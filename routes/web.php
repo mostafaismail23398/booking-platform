@@ -8,7 +8,6 @@ use App\Http\Controllers\ServiceController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [ServiceController::class, 'index'])->name('home');
-Route::get('/services/{service}', [ServiceController::class, 'show'])->name('services.show');
 
 // Guest-only
 Route::middleware('guest')->group(function () {
@@ -25,6 +24,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/stats', [DashboardController::class, 'stats'])->name('dashboard.stats');
 
+    Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
+    Route::post('/services', [ServiceController::class, 'store'])->name('services.store');
+
     Route::post('/services/{service}/book', [BookingController::class, 'store'])->name('bookings.store');
     Route::patch('/bookings/{booking}', [BookingController::class, 'updateStatus'])->name('bookings.update');
 });
+
+// Wildcard route — must stay AFTER /services/create above, or "create" gets
+// captured as a {service} id instead.
+Route::get('/services/{service}', [ServiceController::class, 'show'])->name('services.show');
